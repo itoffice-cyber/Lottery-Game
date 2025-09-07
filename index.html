@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Lottery</title>
+</head>
+<body>
+  <h1>🎉 Welcome to the My Lottery 🎉</h1>
+
+  <div id="lottery-section">
+    <input type="text" id="playerName" placeholder="Enter your name">
+    <button onclick="getLotteryNumber()">Get My Lottery Number</button>
+    <p id="myNumber"></p>
+  </div>
+
+  <h2>Players:</h2>
+  <ul id="playerList"></ul>
+
+  <button onclick="pickWinner()">🎯 Pick Winner</button>
+  <h2 id="winner"></h2>
+
+  <script>
+    let players = [];
+    let counter = 1;
+
+    function getLotteryNumber() {
+      let name = document.getElementById("playerName").value.trim();
+      if (name === "") {
+        alert("Please enter your name!");
+        return;
+      }
+
+      let number = counter++;
+      players.push({ name, number });
+
+      document.getElementById("myNumber").innerText =
+        `Hello ${name}, your lottery number is: ${number}`;
+
+      updatePlayerList();
+    }
+
+    function updatePlayerList() {
+      let list = document.getElementById("playerList");
+      list.innerHTML = "";
+      players.forEach(p => {
+        let li = document.createElement("li");
+        li.textContent = `${p.name} - #${p.number}`;
+        list.appendChild(li);
+      });
+    }
+
+    function pickWinner() {
+  if (players.length < 3) {
+    alert("Need at least 3 players to pick 1st, 2nd, and 3rd winners!");
+    return;
+  }
+
+  // Shuffle players randomly
+  let shuffled = [...players].sort(() => 0.5 - Math.random());
+
+  let first = shuffled[0];
+  let second = shuffled[1];
+  let third = shuffled[2];
+
+  document.getElementById("winner").innerHTML = `
+    🥇 1st Place: ${first.name} (#${first.number}) <br>
+    🥈 2nd Place: ${second.name} (#${second.number}) <br>
+    🥉 3rd Place: ${third.name} (#${third.number})
+  `;
+}
+
+  </script>
+</body>
+</html>
